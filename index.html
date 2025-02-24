@@ -3,684 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прощание с Dark Sun</title>
+    <title>Rewich's Destiny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --background: #14151a;
-            --foreground: #f8fafc;
-            --card: #1a1b23;
-            --muted: #64748b;
-            --primary: #1e293b;
-            --destructive: #ef4444;
-            --radius: 0.5rem;
+            --bg-primary: #1a1025;
+            --text-primary: #ffffff;
+            --accent-color: #8a2be2;
+            --gradient-start: #2a1b3d;
+            --gradient-end: #1a1025;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: var(--background);
-            color: var(--foreground);
-            line-height: 1.6;
-            padding: 2rem 1rem;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeIn 0.8s forwards;
-        }
-
-        .card {
-            background: var(--card);
-            border-radius: var(--radius);
             padding: 2rem;
-            margin-bottom: 2rem;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+        }
+
+        .content {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content.fade-out {
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp 0.6s forwards;
+            transform: translateY(-20px);
         }
 
-        .hero {
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(-45deg, #1e293b, #3b82f6, #ef4444, #1e293b);
-            background-size: 400% 400%;
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--text-primary), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradient 15s ease infinite;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            transition: text-shadow 0.5s ease;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        h1:hover {
+            text-shadow: 0 0 40px rgba(138, 43, 226, 0.5);
         }
 
-        .hero p {
-            color: var(--muted);
+        .soon-text {
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: 0.5rem;
+            margin-bottom: 2rem;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .description {
             font-size: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.3s ease;
         }
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: var(--radius);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.2s;
-            text-decoration: none;
-            justify-content: center;
+        .description:hover {
+            color: rgba(255, 255, 255, 1);
         }
 
-        .button:hover {
-            transform: scale(1.02);
-        }
-
-        .button-primary {
-            background: var(--destructive);
-            color: white;
-            width: 100%;
-            padding: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .button-outline {
-            background: transparent;
-            border: 1px solid var(--muted);
-            color: var(--foreground);
-        }
-
-        .section {
-            margin-bottom: 3rem;
-        }
-
-        .section h2 {
-            color: var(--destructive);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section h3 {
-            color: #3b82f6;
-            font-size: 1.4rem;
-            margin: 1.5rem 0 1rem;
-        }
-
-        .info-block {
-            border-left: 4px solid var(--destructive);
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .contact-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .heart-icon {
-            color: var(--destructive);
-        }
-
-        .admin-panel {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card);
-            padding: 2rem;
-            border-radius: var(--radius);
-            z-index: 1000;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            max-width: 90%;
-            width: 400px;
-        }
-
-        .admin-panel input {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            background: var(--background);
-            border: 1px solid var(--muted);
-            color: var(--foreground);
-            border-radius: var(--radius);
-        }
-
-        .admin-controls {
-            display: none;
-            margin-top: 1rem;
-        }
-
-        .admin-status {
+        .reveal-text {
+            font-size: 3rem;
+            font-weight: 700;
             margin: 1rem 0;
-            padding: 1rem;
-            background: var(--background);
-            border-radius: var(--radius);
-            border: 1px solid var(--muted);
+            animation: slideIn 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
 
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            border-radius: var(--radius);
-            background: var(--card);
+        .timer {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2rem;
+            transition: color 0.3s ease;
         }
 
-        .status-label {
-            color: var(--muted);
+        .timer:hover {
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .status-value {
-            padding: 0.2rem 0.5rem;
-            border-radius: var(--radius);
-            font-size: 0.9rem;
+        .icon {
+            font-size: 3rem;
+            margin: 2rem 0;
+            color: var(--accent-color);
+            animation: rotate 15s linear infinite;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: color 0.3s ease;
         }
 
-        .status-enabled {
-            color: #10b981;
+        .icon:hover {
+            color: #9f3eff;
         }
 
-        .status-disabled {
-            color: var(--destructive);
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .admin-button {
-            width: 100%;
-            margin: 0.5rem 0;
-            background: var(--primary);
-            color: var(--foreground);
-            padding: 0.8rem;
-            border: 1px solid var(--muted);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: background 0.2s;
+        @keyframes slideIn {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
-        .admin-button:hover {
-            background: var(--destructive);
+        @keyframes rotate {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg); }
         }
 
-        .overlay {
-            display: none;
+        @media (max-width: 768px) {
+            .soon-text {
+                font-size: 4rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .description {
+                font-size: 1.2rem;
+            }
+            .reveal-text {
+                font-size: 2rem;
+            }
+        }
+
+
+        .disclaimer-overlay {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 16, 37, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+        }
+
+        .disclaimer-content {
+            background: var(--gradient-start);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            transform: translateY(0);
+            transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .disclaimer-content h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .disclaimer-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .disclaimer-button {
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            margin-top: 20px;
+        }
+
+        .disclaimer-content .notification-toggle {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .disclaimer-button:hover {
+            background-color: #9f3eff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .disclaimer-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .disclaimer-content.hidden {
+            transform: translateY(-20px);
+        }
+
+        .notification-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .notification {
+            background: var(--accent-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .ios-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin: 15px 0;
+        }
+
+        .ios-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .ios-slider {
+            position: absolute;
+            cursor: pointer;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 999;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
         }
 
-        .button-project {
-            background: var(--destructive);
-            opacity: 0.5;
-            cursor: not-allowed;
-            width: 100%;
-            max-width: 500px;
-            margin: 2rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1.5rem;
-            font-size: 1.2rem;
-            border-radius: var(--radius);
-            border: none;
-            color: white;
-        }
-
-        .button-project.unlocked {
-            opacity: 1;
-            cursor: pointer;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .toggle-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .toggle-content.show {
-            max-height: 1000px;
-            transition: max-height 0.5s ease-in;
-        }
-
-        .toggle-button {
-            background: var(--primary);
-            color: var(--foreground);
-            border: 1px solid var(--muted);
-            width: 100%;
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .toggle-button:hover {
-            background: var(--destructive);
-        }
-
-        .reasons-list {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .reasons-list li {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .reasons-list li::before {
-            content: "•";
-            color: var(--destructive);
+        .ios-slider:before {
             position: absolute;
-            left: 0;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        input:checked + .ios-slider {
+            background-color: var(--accent-color);
         }
 
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1.2rem;
-            }
-            .contact-buttons {
-                flex-direction: column;
-            }
-            .button-primary {
-                font-size: 1rem;
-                padding: 1rem;
-            }
+        input:checked + .ios-slider:before {
+            transform: translateX(26px);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card hero">
-            <h1 id="titleClickable">Прощание с Dark Sun</h1>
-            <p>Дорогие друзья и участники проекта Dark Sun! Я, Алексей Стрипуха, хочу поделиться с вами важными изменениями.</p>
-        </div>
-
-        <div class="card section" id="thanksSection">
-            <h2>
-                <svg class="heart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                </svg>
-                Особые слова благодарности
-            </h2>
-            <div class="info-block">
-                <p>
-                    Дорогой Rewich, создатель проекта, ты был не просто его основателем - ты стал его сердцем и душой. 
-                    Твоя преданность и энтузиазм вдохновляли всех нас. Спасибо тебе за каждый момент, 
-                    который мы разделили вместе.
-                </p>
-                <br>
-                <p>
-                    Dark Sun стал для меня больше, чем просто проектом - это была настоящая семья. 
-                    Каждый из вас внёс свой уникальный вклад в наше общее дело. Все эти дни мы росли, 
-                    развивались и становились лучше вместе.
-                </p>
-                <br>
-                <p>
-                    Возможно, это прощание временное. Но даже если нам придётся расстаться навсегда, 
-                    я всегда буду хранить в своём сердце те прекрасные моменты, которые мы разделили вместе. 
-                    Вы научили меня многому, и я благодарен судьбе за каждого из вас.
-                </p>
+    <div class="disclaimer-overlay" id="disclaimerOverlay">
+        <div class="disclaimer-content">
+            <h2>Дисклеймер</h2>
+            <p>Мы не можем предугадать выбор Rewich. Его возвращение в команду - это его личное решение. Все, что будет сказано в реальности, будет отражено на этом сайте. Что будет с проектом? Не ебем в душе... Это путешествие в неизвестность, и мы все узнаем вместе.</p>
+            <div class="notification-toggle">
+                <p>Разрешить уведомления</p>
+                <label class="ios-switch">
+                    <input type="checkbox" id="notificationToggle" onchange="toggleNotifications()">
+                    <span class="ios-slider"></span>
+                </label>
             </div>
-        </div>
-
-        <div class="card section">
-            <h2>О возможном новом проекте</h2>
-            <div class="info-block">
-                <p>
-                    Уважаемые подписчики, я хочу поделиться с вами важной информацией о возможном новом проекте. 
-                    Ваше мнение и поддержка всегда были для нас главным приоритетом.
-                </p>
-            </div>
-
-            <button class="button-project" id="projectButton" disabled>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-                Перейти на новый проект
-            </button>
-
-            <button class="toggle-button" id="reasonsButton">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
-                </svg>
-                Показать подробности
-            </button>
-
-            <div class="toggle-content" id="reasonsContent">
-                <div class="info-block">
-                    <h3>Важная информация</h3>
-                    <ul class="reasons-list">
-                        <li>В случае если новая администрация изменит тематику проекта или не оправдает ожиданий подписчиков, мы оставляем за собой право создать новый проект.</li>
-                        <li>Новый проект будет следовать изначальной концепции и тематике, которая была на канале все это время.</li>
-                        <li>Решение о переходе на новый проект будет приниматься с учетом мнения подписчиков.</li>
-                        <li>Мы уважаем выбор администрации, но также ценим право подписчиков на сохранение привычного формата.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="card section">
-            <div class="contact-buttons">
-                <a href="mailto:contact@example.com" class="button button-outline" id="emailLink">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    Написать письмо
-                </a>
-                <a href="https://t.me/example" target="_blank" class="button button-outline" id="telegramLink">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                    </svg>
-                    Telegram
-                </a>
-            </div>
-            <p style="text-align: center; margin-top: 2rem; color: var(--muted);">
-                С уважением, Алексей Стрипуха
-            </p>
+            <button class="disclaimer-button" onclick="acceptDisclaimer()">Я понимаю</button>
         </div>
     </div>
 
-    <!-- Админ панель -->
-    <div class="overlay" id="overlay"></div>
-    <div class="admin-panel" id="adminPanel">
-        <h3>Админ панель</h3>
-        <div id="loginForm">
-            <input type="password" id="adminPassword" placeholder="Введите пароль">
-            <button class="admin-button" onclick="login()">Войти</button>
+    <div class="notification-wrapper" id="notificationWrapper"></div>
+    <div class="container">
+        <i class="fas fa-triangle icon"></i>
+        <div class="content" id="mainContent">
+            <h1>Судьба Rewich</h1>
+            <div class="soon-text">SOON...</div>
+            <p class="description">На этом сайте вся судьба Rewich. В 13:00 по МСК будет все ясно. Ожидайте...</p>
+            <div class="timer" id="timer"></div>
         </div>
-        <div id="adminControls" class="admin-controls">
-            <div class="admin-status">
-                <h4 style="margin-bottom: 1rem;">Текущий статус:</h4>
-                <div class="status-item">
-                    <span class="status-label">Кнопка перехода:</span>
-                    <span id="buttonStatus" class="status-value"></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Ссылка на проект:</span>
-                    <span id="linkStatus" class="status-value"></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Текст благодарности:</span>
-                    <span id="textStatus" class="status-value"></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Email для связи:</span>
-                    <span id="emailStatus" class="status-value"></span>
-                </div>
-                <div class="status-item">
-                    <span class="status-label">Telegram для связи:</span>
-                    <span id="telegramStatus" class="status-value"></span>
-                </div>
-            </div>
-            <input type="text" id="projectLink" placeholder="Ссылка на новый проект">
-            <button class="admin-button" onclick="updateProjectLink()">Обновить ссылку</button>
-            <input type="email" id="contactEmail" placeholder="Email для связи">
-            <button class="admin-button" onclick="updateEmail()">Обновить email</button>
-            <input type="text" id="contactTelegram" placeholder="Ссылка на Telegram">
-            <button class="admin-button" onclick="updateTelegram()">Обновить Telegram</button>
-            <button class="admin-button" onclick="toggleProjectButton()">
-                <span id="toggleButtonText">Разблокировать кнопку</span>
-            </button>
-            <button class="admin-button" onclick="toggleThanksSection()">
-                <span id="toggleSectionText">Скрыть текст благодарности</span>
-            </button>
-            <button class="admin-button" onclick="logout()">Выйти</button>
+        <div class="content fade-out" id="revealContent" style="display: none;">
+            <div class="reveal-text">ВЫ ДУМАЛИ МЫ УЙДЕМ?</div>
+            <div class="reveal-text" style="animation-delay: 0.5s;">ВЫ ХУЕВО ДУМАЕТЕ</div>
         </div>
     </div>
 
     <script>
-        // Add animation delay to cards
-        document.querySelectorAll('.card').forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.2}s`;
+        // Проверяем только настройки уведомлений при загрузке
+        window.addEventListener('DOMContentLoaded', () => {
+            const notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+            document.getElementById('notificationToggle').checked = notificationsEnabled;
+
+            if (notificationsEnabled && Notification.permission === "granted") {
+                setTimeout(() => {
+                    addNotification('Не забудь проверить сайт в 13:00 МСК!');
+                    new Notification("Rewich's Destiny", {
+                        body: 'Не забудь проверить сайт в 13:00 МСК!',
+                        icon: '/favicon.ico'
+                    });
+                }, 1000);
+            }
         });
 
-        // Toggle reasons content
-        const reasonsButton = document.getElementById('reasonsButton');
-        const reasonsContent = document.getElementById('reasonsContent');
+        function acceptDisclaimer() {
+            const overlay = document.getElementById('disclaimerOverlay');
+            const content = overlay.querySelector('.disclaimer-content');
 
-        reasonsButton.addEventListener('click', () => {
-            reasonsContent.classList.toggle('show');
-            reasonsButton.innerHTML = reasonsContent.classList.contains('show')
-                ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                       <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
-                   </svg> Скрыть подробности`
-                : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                       <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
-                   </svg> Показать подробности`;
-        });
+            // Сохраняем в localStorage только после нажатия на кнопку
+            localStorage.setItem('disclaimerAccepted', 'true');
 
-        // Админ-панель и функционал
-        let titleClicks = 0;
-        let clickTimeout;
-        let isAuthenticated = false;
-        let projectLink = '';
-        let isButtonUnlocked = false;
-        let isSectionVisible = true;
-        let contactEmail = '';
-        let contactTelegram = '';
-
-        // Загрузка состояния из localStorage
-        function loadState() {
-            projectLink = localStorage.getItem('projectLink') || '';
-            isButtonUnlocked = localStorage.getItem('isButtonUnlocked') === 'true';
-            isSectionVisible = localStorage.getItem('isSectionVisible') !== 'false';
-            contactEmail = localStorage.getItem('contactEmail') || 'contact@example.com';
-            contactTelegram = localStorage.getItem('contactTelegram') || 'https://gzmland.ru';
-
-            updateProjectButton();
-            updateThanksSection();
-            updateContactLinks();
-            if (isAuthenticated) {
-                updateStatus();
-            }
+            content.classList.add('hidden');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 2000);
         }
 
-        // Обновление состояния кнопки проекта
-        function updateProjectButton() {
-            const button = document.getElementById('projectButton');
-            if (isButtonUnlocked && projectLink) {
-                button.classList.add('unlocked');
-                button.disabled = false;
-                button.onclick = () => window.location.href = projectLink;
-            } else {
-                button.classList.remove('unlocked');
-                button.disabled = true;
-                button.onclick = null;
-            }
-            document.getElementById('toggleButtonText').textContent = 
-                isButtonUnlocked ? 'Заблокировать кнопку' : 'Разблокировать кнопку';
-            updateStatus();
-        }
+        async function toggleNotifications() {
+            const isEnabled = document.getElementById('notificationToggle').checked;
 
-        // Обновление контактных ссылок
-        function updateContactLinks() {
-            document.getElementById('emailLink').href = `mailto:${contactEmail}`;
-            document.getElementById('telegramLink').href = contactTelegram;
-            if (isAuthenticated) {
-                document.getElementById('contactEmail').value = contactEmail;
-                document.getElementById('contactTelegram').value = contactTelegram;
-            }
-            updateStatus();
-        }
-
-        // Обновление видимости секции благодарности
-        function updateThanksSection() {
-            const section = document.getElementById('thanksSection');
-            section.classList.toggle('hidden', !isSectionVisible);
-            document.getElementById('toggleSectionText').textContent = 
-                isSectionVisible ? 'Скрыть текст благодарности' : 'Показать текст благодарности';
-            updateStatus();
-        }
-
-        // Открытие админ-панели
-        document.getElementById('titleClickable').addEventListener('click', () => {
-            titleClicks++;
-            clearTimeout(clickTimeout);
-            clickTimeout = setTimeout(() => titleClicks = 0, 2000);
-
-            if (titleClicks === 3) {
-                document.getElementById('overlay').style.display = 'block';
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('loginForm').style.display = isAuthenticated ? 'none' : 'block';
-                document.getElementById('adminControls').style.display = isAuthenticated ? 'block' : 'none';
-                if (isAuthenticated) {
-                    document.getElementById('projectLink').value = projectLink;
-                    document.getElementById('contactEmail').value = contactEmail;
-                    document.getElementById('contactTelegram').value = contactTelegram;
-                    updateStatus();
+            if (isEnabled) {
+                if (Notification.permission !== "granted") {
+                    const permission = await Notification.requestPermission();
+                    if (permission !== "granted") {
+                        document.getElementById('notificationToggle').checked = false;
+                        addNotification('Для работы уведомлений необходимо разрешение браузера');
+                        return;
+                    }
                 }
-                titleClicks = 0;
-            }
-        });
 
-        // Вход в админ-панель
-        function login() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === 'darksun141312') {
-                isAuthenticated = true;
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('adminControls').style.display = 'block';
-                document.getElementById('projectLink').value = projectLink;
-                document.getElementById('contactEmail').value = contactEmail;
-                document.getElementById('contactTelegram').value = contactTelegram;
-                document.getElementById('adminPassword').value = '';
-                updateStatus();
+                localStorage.setItem('notificationsEnabled', 'true');
+                addNotification('Уведомления включены. Мы напомним вам о важных событиях!');
+                new Notification("Rewich's Destiny", {
+                    body: 'Уведомления включены. Мы напомним вам о важных событиях!',
+                    icon: '/favicon.ico'
+                });
+
+                const now = new Date();
+                const mskOffset = 3;
+                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                const mskTime = new Date(utc + (3600000 * mskOffset));
+
+                if (mskTime.getHours() < 13) {
+                    setTimeout(() => {
+                        addNotification('Не забудь проверить сайт в 13:00 МСК!');
+                        new Notification("Rewich's Destiny", {
+                            body: 'Не забудь проверить сайт в 13:00 МСК!',
+                            icon: '/favicon.ico'
+                        });
+                    }, 1000 * 60 * 60);
+                }
             } else {
-                alert('Неверный пароль');
+                localStorage.setItem('notificationsEnabled', 'false');
             }
         }
 
-        // Выход из админ-панели
-        function logout() {
-            isAuthenticated = false;
-            closeAdminPanel();
+        function addNotification(message) {
+            if (!document.getElementById('notificationToggle').checked) return;
+
+            const wrapper = document.getElementById('notificationWrapper');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            wrapper.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    wrapper.removeChild(notification);
+                }, 400);
+            }, 5000);
         }
 
-        // Обновление ссылки на проект
-        function updateProjectLink() {
-            const newLink = document.getElementById('projectLink').value;
-            projectLink = newLink;
-            localStorage.setItem('projectLink', projectLink);
-            updateProjectButton();
+        function checkTime() {
+            const now = new Date();
+            const mskOffset = 3;
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const mskTime = new Date(utc + (3600000 * mskOffset));
+
+            const hours = mskTime.getHours();
+            const minutes = mskTime.getMinutes();
+
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = `Текущее время МСК: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+            if (hours === 13 && minutes >= 0) {
+                showRevealContent();
+            }
         }
 
-        // Обновление email для связи
-        function updateEmail() {
-            const newEmail = document.getElementById('contactEmail').value;
-            contactEmail = newEmail;
-            localStorage.setItem('contactEmail', contactEmail);
-            updateContactLinks();
+        function showRevealContent() {
+            const mainContent = document.getElementById('mainContent');
+            const revealContent = document.getElementById('revealContent');
+
+            mainContent.classList.add('fade-out');
+
+            setTimeout(() => {
+                mainContent.style.display = 'none';
+                revealContent.style.display = 'block';
+                setTimeout(() => {
+                    revealContent.classList.remove('fade-out');
+                }, 100);
+            }, 1200);
         }
 
-        // Обновление ссылки на Telegram
-        function updateTelegram() {
-            const newTelegram = document.getElementById('contactTelegram').value;
-            contactTelegram = newTelegram;
-            localStorage.setItem('contactTelegram', contactTelegram);
-            updateContactLinks();
-        }
-
-        // Переключение состояния кнопки
-        function toggleProjectButton() {
-            isButtonUnlocked = !isButtonUnlocked;
-            localStorage.setItem('isButtonUnlocked', isButtonUnlocked);
-            updateProjectButton();
-        }
-
-        // Переключение видимости секции благодарности
-        function toggleThanksSection() {
-            isSectionVisible = !isSectionVisible;
-            localStorage.setItem('isSectionVisible', isSectionVisible);
-            updateThanksSection();
-        }
-
-        // Закрытие админ-панели
-        function closeAdminPanel() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'none';
-        }
-
-        // Закрытие при клике на оверлей
-        document.getElementById('overlay').addEventListener('click', closeAdminPanel);
-
-        // Обновление статусов в админ-панели
-        function updateStatus() {
-            const buttonStatusEl = document.getElementById('buttonStatus');
-            buttonStatusEl.textContent = isButtonUnlocked ? 'Разблокирована' : 'Заблокирована';
-            buttonStatusEl.className = 'status-value ' + (isButtonUnlocked ? 'status-enabled' : 'status-disabled');
-
-            const linkStatusEl = document.getElementById('linkStatus');
-            linkStatusEl.textContent = projectLink ? 'Установлена' : 'Не установлена';
-            linkStatusEl.className = 'status-value ' + (projectLink ? 'status-enabled' : 'status-disabled');
-
-            const textStatusEl = document.getElementById('textStatus');
-            textStatusEl.textContent = isSectionVisible ? 'Отображается' : 'Скрыт';
-            textStatusEl.className = 'status-value ' + (isSectionVisible ? 'status-enabled' : 'status-disabled');
-
-            const emailStatusEl = document.getElementById('emailStatus');
-            emailStatusEl.textContent = contactEmail === 'contact@example.com' ? 'По умолчанию' : 'Установлен';
-            emailStatusEl.className = 'status-value ' + (contactEmail !== 'contact@example.com' ? 'status-enabled' : 'status-disabled');
-
-            const telegramStatusEl = document.getElementById('telegramStatus');
-            telegramStatusEl.textContent = contactTelegram === 'https://t.me/example' ? 'По умолчанию' : 'Установлен';
-            telegramStatusEl.className = 'status-value ' + (contactTelegram !== 'https://t.me/example' ? 'status-enabled' : 'status-disabled');
-        }
-
-        // Загрузка начального состояния
-        loadState();
+        setInterval(checkTime, 1000);
+        checkTime();
     </script>
 </body>
 </html>
